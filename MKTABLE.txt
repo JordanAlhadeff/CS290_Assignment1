@@ -11,7 +11,7 @@ CREATE TABLE `mk_Kharacters`(
     `Living` VARCHAR(255),
     `Alignment` VARCHAR(255),
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`Species`) REFERENCES `mk_Species` (`SpeciesId`),
+    FOREIGN KEY (`Species`) REFERENCES `mk_Species` (`SpeciesId`) ON UPDATE SET NULL ON DELETE SET NULL,
     FOREIGN KEY (`Realm`) REFERENCES `mk_Realm` (`RealmId`),
     FOREIGN KEY (`Faction`) REFERENCES `mk_Faction` (`FactionId`) 
     ) ENGINE=InnoDB;
@@ -32,7 +32,7 @@ CREATE TABLE `mk_Kharacters`(
             `Conquered` VARCHAR(255),
             PRIMARY KEY (`RealmId`),
             UNIQUE (`RealmName`),
-            FOREIGN KEY (`NativeSpecies`) REFERENCES `mk_Species` (`SpeciesId`)
+            FOREIGN KEY (`NativeSpecies`) REFERENCES `mk_Species` (`SpeciesId`) ON UPDATE SET NULL ON DELETE SET NULL
             )Engine=INNODB;
             
             CREATE TABLE `mk_Faction`(
@@ -42,7 +42,7 @@ CREATE TABLE `mk_Kharacters`(
                 `Leader` INT(11),
                 PRIMARY KEY (`FactionId`),
                 UNIQUE (`FactionName`),
-                FOREIGN KEY (`Leader`) REFERENCES `mk_Kharacter` (`id`)
+                FOREIGN KEY (`Leader`) REFERENCES `mk_Kharacters` (`id`) ON UPDATE SET NULL ON DELETE SET NULL
                 )ENGINE=INNODB;
                 
                 CREATE TABLE `mk_Faction_Species`(
@@ -50,6 +50,7 @@ CREATE TABLE `mk_Kharacters`(
                     `FId` INT(11) NOT NULL,
                     `SId` INT(11) NOT NULL,
                     PRIMARY KEY (`Fac_SpecId`),
+                    UNIQUE `fac_spec` (`FId`,`SId`),
                     FOREIGN KEY (`FId`) REFERENCES `mk_Faction` (`FactionId`) ON UPDATE CASCADE ON DELETE CASCADE,
                     FOREIGN KEY (`SId`) REFERENCES `mk_Species` (`SpeciesId`) ON UPDATE CASCADE ON DELETE CASCADE
                     )ENGINE=INNODB;
